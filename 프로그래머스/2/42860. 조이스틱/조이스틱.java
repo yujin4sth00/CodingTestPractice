@@ -1,25 +1,19 @@
+import java.util.Arrays;
 class Solution {
     public int solution(String name) {
-        int answer = 0; // 조이스틱 조작 횟수
-        int len = name.length();
-        int move = name.length() - 1; // 기본 최소 좌우이동 횟수 (좌, 우 커서)
+        int answer = 0;
+        int move = name.length() - 1; // 오른쪽으로 쭉 간 횟수
         
-        // 해당 커서 알파벳 변경 최솟값 (위, 아래 커서)
-        for (int i = 0; i < len; i++) {
-            answer += Math.min(name.charAt(i) - 'A', 'Z' - name.charAt(i) + 1);
-            
-            // 연속된 'A'가 끝나는 지점 찾기
-            int next = i + 1;
-            while(next < len && name.charAt(next) == 'A') {
-                next++;
+        for(int i = 0; i < name.length(); i++) {
+            answer += Math.min(name.charAt(i) - 'A', 26 - (name.charAt(i) - 'A')); //상,하 알파벳 맞추기
+            if (i < name.length() - 1 && name.charAt(i + 1) == 'A') {
+                int endA = i + 1;
+                while(endA < name.length() && name.charAt(endA) == 'A')
+                    endA++;
+                move = Math.min(move, i * 2 + (name.length() - endA));// 오른쪽으로 갔다 다시 왼쪽으로 꺾기
+                move = Math.min(move, i + (name.length() - endA) * 2);// 왼쪽으로 갔다 다시 오른쪽으로 꺾기
             }
-            
-            // 좌우이동 최소 횟수 구하기 (순서대로 가기 vs 뒤로 돌아가기)
-            move = Math.min(move, (i * 2) + len - next);
-            move = Math.min(move, (len - next) * 2 + i);
-        }   
-        answer += move;
- 
-        return answer;
+        }
+        return answer + move;
     }
 }
