@@ -7,8 +7,10 @@ public class Main {
         Map<String, Integer> treeMap = new HashMap<>();
         int totalCount = 0;
         
-        String line;
-        while ((line = br.readLine()) != null) {  // EOF까지 입력받기
+        while (true) {
+            String line = br.readLine();
+            if (line == null || line.length() == 0) break; // EOF 또는 빈 줄 입력 시 종료
+
             treeMap.put(line, treeMap.getOrDefault(line, 0) + 1);
             totalCount++;
         }
