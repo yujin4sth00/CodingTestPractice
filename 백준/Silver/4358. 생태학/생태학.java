@@ -1,31 +1,29 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.TreeMap;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        TreeMap<String, Integer> map = new TreeMap<>(); // 자동 정렬되는 map
-        int cnt = 0; // 전체 입력 수
-
-        // 입력
-        while(true){
-            String input = br.readLine();
-            if(input == null || input.length() == 0) break;
-
-            if(map.containsKey(input)){ // 이미 한 번 이상 나온 적 있는 종일 경우
-                map.put(input, map.get(input) + 1);
-            } else { // 처음 등장하는 종일 경우
-                map.put(input, 1);
-            }
-            cnt++;
+        Map<String, Integer> treeMap = new HashMap<>();
+        int totalCount = 0;
+        
+        String line;
+        while ((line = br.readLine()) != null) {  // EOF까지 입력받기
+            treeMap.put(line, treeMap.getOrDefault(line, 0) + 1);
+            totalCount++;
         }
-
-        // 출력
-        for(String key : map.keySet()){
-            double value = (double)map.get(key) / (double)cnt * 100;
-            System.out.println(key + " " + String.format("%.4f", value));
+        
+        // 사전순 정렬을 위해 TreeMap 사용
+        TreeMap<String, Integer> sortedTreeMap = new TreeMap<>(treeMap);
+        
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Integer> entry : sortedTreeMap.entrySet()) {
+            String treeName = entry.getKey();
+            int count = entry.getValue();
+            double percentage = (count / (double) totalCount) * 100;
+            sb.append(String.format("%s %.4f\n", treeName, percentage));
         }
+        
+        System.out.print(sb.toString());
     }
 }
