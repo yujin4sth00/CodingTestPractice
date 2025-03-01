@@ -10,7 +10,7 @@ public class Main {
  
         int T = Integer.parseInt(in.readLine());
  
-        for(int tc=0;tc<T;tc++){
+        for(int td = 0; td < T; td++){
             int N = Integer.parseInt(in.readLine());
             st = new StringTokenizer(in.readLine());
  
