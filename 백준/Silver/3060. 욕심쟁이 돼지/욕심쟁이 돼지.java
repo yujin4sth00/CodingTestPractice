@@ -8,14 +8,15 @@ public class Main {
         int T = Integer.parseInt(in.readLine());
 
         for (int tc = 0; tc < T; tc++) {
+            // 사료의 양 N (1<=N<=500,000,000)
             int N = Integer.parseInt(in.readLine());
-            String[] input = in.readLine().split(" ");
+            String[] food = in.readLine().split(" ");
 
             int day = 1;
             long firstsum = 0;
 
             for (int i = 0; i < 6; i++)
-                firstsum += Integer.parseInt(input[i]);
+                firstsum += Integer.parseInt(food[i]);
             while (firstsum <= N) {
                 firstsum *= 4;
                 day++;
