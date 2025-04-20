@@ -1,50 +1,38 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int[][] star = new int[12][2];
+        int[] numEdges = new int[13];
+        ArrayList<Integer>[] graph = new ArrayList[13];
+        for (int i = 1; i < 13; i++) graph[i] = new ArrayList<>();
 
-        List<List<Integer>> connect = new ArrayList<>();
-        for (int i = 0; i < 13; i++) {
-            connect.add(new ArrayList<>());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        for (int i = 0; i < 12; i++) {
+            StringTokenizer line = new StringTokenizer(br.readLine(), " ");
+            int a = Integer.parseInt(line.nextToken());
+            int b = Integer.parseInt(line.nextToken());
+            numEdges[a]++;
+            numEdges[b]++;
+            graph[a].add(b);
+            graph[b].add(a);
         }
 
-        for (int i = 0; i < 12; i++) {
-            int x = sc.nextInt();
-            int y = sc.nextInt();
-            star[i][0] = x;
-            star[i][1] = y;
-            connect.get(x).add(y);
-            connect.get(y).add(x);
-        }
+        int spica = - 1;
+        for (int i = 1; i <= 12; i++) {
+            if (numEdges[i] != 3) continue;
 
-        int[] line = new int[12];
-        for (int i = 0; i < 12; i++) {
-            line[star[i][0] - 1] += 1;
-            line[star[i][1] - 1] += 1;
-        }
-
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            if (line[i] == 3) {
-                list.add(i + 1);
+            int sum = 0;
+            for (int adj : graph[i]) sum += numEdges[adj];
+            if (sum == 6) {
+                spica = i;
+                break;
             }
         }
 
-        for (int i = 0; i < list.size(); i++) {
-            int s = list.get(i);
-            List<Integer> connectedStar = connect.get(s);
-
-            int connectLine = 0;
-            for (int j = 0; j < connectedStar.size(); j++) {
-                connectLine += line[connectedStar.get(j) - 1];
-            }
-
-            if (connectLine == 6) {
-                System.out.println(s);
-            }
-        }
+        System.out.println(spica);
     }
 }
