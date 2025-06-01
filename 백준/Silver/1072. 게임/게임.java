@@ -1,15 +1,16 @@
-import java.util.*;
+import java.io.*;
 
 public class Main {
     static long x;
     static long y;
     static int target;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        x = sc.nextInt();
-        y = sc.nextInt();
+        String[] input = br.readLine().split(" ");
+        x = Long.parseLong(input[0]);
+        y = Long.parseLong(input[1]);
 
         target = (int) ((y * 100) / x);
 
