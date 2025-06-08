@@ -1,44 +1,51 @@
 
-
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-    // 오락실
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        char[][] arr = new char[N][N];
-        int max = -1;
-        int mix = 1501;
-        int may = -1;
-        int miy = 1501;
-        for(int i = 0; i < N; i++) {
+        int minx = 1501; 
+        int maxx = -1;
+        int miny = 1501;
+        int maxy = -1;
+
+
+        for (int i=0; i<N; i++) {
             String str = br.readLine();
-            for(int j = 0; j < N; j++) {
-                if(str.charAt(j) == 'G') {
-                    mix = Math.min(mix, i);
-                    max = Math.max(max, i);
-                    may = Math.max(may, j);
-                    miy = Math.min(miy, j);
+            for(int j=0; j<N; j++){
+                if (str.charAt(j) == 'G') {
+                    minx = Math.min(i, minx);
+                    maxx = Math.max(i, maxx);
+                    miny = Math.min(j, miny);
+                    maxy = Math.max(j, maxy);
                 }
+
             }
+
+
         }
-        if(mix == max && may == miy)
-            System.out.println(0);
-        else if(mix == max){
-            int ans = Math.min(may, N-miy-1);
-            System.out.println(ans);
+
+        if(minx == maxx && miny == maxy) {
+            System.out.println("0");
         }
-        else if(may == miy) {
-            int ans = Math.min(max, N-mix-1);
-            System.out.println(ans);
+        // 다 같은 열에 있는 경우
+        else if(minx == maxx) {
+            int count = Math.min(maxy, N-miny-1);
+            System.out.println(count);
         }
+        // 다 같은 행에 있는 경우
+        else if (miny == maxy){
+            int count = Math.min(maxx, N-minx-1);
+            System.out.println(count);
+        }
+        // 제 각각인 경우
         else {
-            int ax = Math.min(max, N-mix-1);
-            int ay = Math.min(may, N-miy-1);
-            System.out.println(ax+ay);
+            int countx = Math.min(maxy, N-miny-1);
+            int county = Math.min(maxx, N-minx-1);
+            System.out.println(countx + county);
         }
     }
-
 }
